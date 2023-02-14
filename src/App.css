@@ -1,0 +1,38 @@
+* {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header{
+  margin-bottom: 30px;
+}
+
+.headerContainerButtons {
+  display: flex;
+  height: 40px;
+}
+
+.headerContainerButtons button, .headerContainerButtons input{
+  margin-right: 10px;
+  height: 100%;
+  border-radius: 10px;
+}
+
+
+.cardModalHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardModalInputs{
+  width: 85%;
+  margin-top: 15px;
+  margin-bottom: 35px;
+}
+
+
+.editModalHeader{
+  display: flex;
+  justify-content: space-between;
+  width: 50%;
+}
