@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { AtaService } from "./Ata/Services/service";
 import { DataGrid, GridActionsCellItem, GridColumns } from "@mui/x-data-grid";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
@@ -105,8 +105,6 @@ export default function GridData(props: any) {
             let descricao = results[index].descricao;
             let revisada = results[index].revisada;
             let dataCadastro = results[index].dataCadastro;
-
-          
 
             setEditId(id);
             setEditUniqueKey(uniqueKey);
