@@ -16,6 +16,7 @@ import {
   useTheme,
 } from "@mui/material";
 
+import EditorTexto from "./EditorTexto";
 import { AtaService } from "./Services/service";
 
 export default function AddModal(props: any) {
@@ -135,7 +136,9 @@ export default function AddModal(props: any) {
 
           <h4>Descrição</h4>
 
-          <TextField
+          <EditorTexto />
+
+          {/* <TextField
             id="descricao"
             label="Descrição"
             variant="outlined"
@@ -146,7 +149,7 @@ export default function AddModal(props: any) {
             onChange={(v) => {
               setDescricao(v.target.value);
             }}
-          />
+          /> */}
 
           <Stack
             direction="row"
