@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { AtaService } from "./Ata/Services/service";
+import { AtaService } from "./Services/service";
 import { DataGrid, GridActionsCellItem, GridColumns } from "@mui/x-data-grid";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import Header from "./Ata/Header";
-import EditModal from "./Ata/EditModal";
-import DeleteModal from "./Ata/DeleteModal";
+import Header from "./Header";
+import EditModal from "./EditModal";
+import DeleteModal from "./DeleteModal";
 import { Stack } from "@mui/material";
 
 export default function GridData(props: any) {

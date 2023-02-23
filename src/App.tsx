@@ -1,14 +1,13 @@
-import './App.css'
-import GridData from './Components/GridData';
-
-function App() {
+import "./App.css";
+import Rotas from "./Routes/Rotas";
 
 
+
+export default function App() {
   return (
     <div className="App">
-      <GridData />
+      <Rotas />
     </div>
-  )
+  );
 }
 
-export default App
