@@ -14,14 +14,16 @@ import {
   IconButton,
   TextField,
 } from "@mui/material";
-import useMediaQuery from '@mui/material/useMediaQuery';
-import { useTheme } from '@mui/material/styles';
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 import { AtaService } from "./Services/service";
 
 
 export default function EditModal(props: any) {
-
   const [titulo, setTitulo] = useState("");
   const [descricao, setDescricao] = useState("");
   const [revisada, setRevisada] = useState(false);
@@ -33,10 +35,10 @@ export default function EditModal(props: any) {
   const [errorMessage, setErrorMessage] = useState("");
 
   const theme = useTheme();
-  const fullScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const closeModal = () => {
-    props.setEditModal(false)
+    props.setEditModal(false);
     setAlert(false);
   };
 
@@ -48,13 +50,11 @@ export default function EditModal(props: any) {
 
   function getData() {
     props.getData("");
-    
   }
 
   function obter(id: number) {
     AtaService.obter(id)
       .then((response) => {
-
         setErrorMessage(response.data.errorMessage);
 
         if (response.data.errorCode != 0) {
@@ -75,12 +75,10 @@ export default function EditModal(props: any) {
       revisada: revisada ? "S" : "N",
     };
 
-
     setIsLoading(true);
 
     AtaService.editar(body)
       .then((response) => {
-
         setErrorMessage(response.data.errorMessage);
 
         if (response.data.errorCode != 0) {
@@ -103,131 +101,136 @@ export default function EditModal(props: any) {
 
   return (
     <Stack>
-      <Dialog 
-        open={props.editModal} 
+      <Dialog
+        open={props.editModal}
         onClose={closeModal}
         fullScreen={fullScreen}
         fullWidth={true}
       >
-        <Box sx={{ padding: 3}}>
+        <Box sx={{ padding: 3 }}>
+          <Stack
+            flexDirection={"row"}
+            alignItems={"center"}
+            justifyContent={"space-between"}
+          >
+            <h1>{props.title}</h1>
 
-        <Stack flexDirection={'row'} alignItems={'center'} justifyContent={'space-between'}>
-          
-          <h1>{props.title}</h1>
-
-          <Button onClick={closeModal}>
-            <CloseIcon color="action" />
-          </Button>
-
-        </Stack>
-
-        <hr />
-
-        <Box sx={{ width: "100%" }}>
-          <Collapse in={alert}>
-            <Alert
-              severity={statusApi ? "success" : "error"}
-              action={
-                <IconButton
-                  aria-label="close"
-                  color="inherit"
-                  size="small"
-                  onClick={() => {
-                    setAlert(false);
-                  }}
-                >
-                  <CloseIcon fontSize="inherit" />
-                </IconButton>
-              }
-              sx={{ mb: 2 }}
-            >
-              {statusApi
-                ? "Ata editada com sucesso!"
-                : errorMessage != ""
-                ? errorMessage
-                : "Erro na atualização!"}
-            </Alert>
-          </Collapse>
-        </Box>
-
-        <Stack flexDirection={'row'} alignItems={'center'}>
-          <Stack sx={{marginRight: 5}}>
-            <h4>ID</h4>
-            <p>{props.uniqueKey}</p>
+            <Button onClick={closeModal}>
+              <CloseIcon color="action" />
+            </Button>
           </Stack>
-          <Stack>
-            <h4>Criada em</h4>
-            <p>{props.dataCadastro}</p>
+
+          <hr />
+
+          <Box sx={{ width: "100%" }}>
+            <Collapse in={alert}>
+              <Alert
+                severity={statusApi ? "success" : "error"}
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      setAlert(false);
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+                sx={{ mb: 2 }}
+              >
+                {statusApi
+                  ? "Ata editada com sucesso!"
+                  : errorMessage != ""
+                  ? errorMessage
+                  : "Erro na atualização!"}
+              </Alert>
+            </Collapse>
+          </Box>
+
+          <Stack flexDirection={"row"} alignItems={"center"}>
+            <Stack sx={{ marginRight: 5 }}>
+              <h4>ID</h4>
+              <p>{props.uniqueKey}</p>
+            </Stack>
+            <Stack>
+              <h4>Criada em</h4>
+              <p>{props.dataCadastro}</p>
+            </Stack>
           </Stack>
-        </Stack>
 
-        <div className="cardModalInputs">
-          <TextField
-            id="titulo"
-            variant="outlined"
-            required
-            size="small"
-            fullWidth
-            value={titulo}
-            onChange={(v) => {
-              setTitulo(v.target.value);
-            }}
-          />
-
-          <h4>Descrição</h4>
-
-          <TextField
-            id="descricao"
-            label="Descrição"
-            variant="outlined"
-            required
-            multiline
-            rows={5}
-            fullWidth
-            value={descricao}
-            onChange={(v) => {
-              setDescricao(v.target.value);
-            }}
-          />
-        </div>
-
-        <Stack direction="row" spacing={3} justifyContent="flex-start">
-          <FormGroup>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={revisada}
-                  onChange={(event, checked: boolean) => {
-                    setRevisada(checked);
-                  }}
-                />
-              }
-              label="Revisada (PS000356)"
+          <div className="cardModalInputs">
+            <TextField
+              id="titulo"
+              variant="outlined"
+              required
+              size="small"
+              fullWidth
+              value={titulo}
+              onChange={(v) => {
+                setTitulo(v.target.value);
+              }}
             />
-          </FormGroup>
-        </Stack>
 
-        <Stack direction="row" spacing={3} justifyContent="flex-end">
-          <Button variant="text" size="medium" onClick={closeModal}>
-            Voltar
-          </Button>
+            <h4>Descrição</h4>
 
-          <Button
-            variant="contained"
-            size="medium"
-            onClick={() => {
-              atualizarAta();
-            }}  
-            sx={{maxWidth: 250, maxHeight: 40}} 
+            <div
+              style={{
+                width: "100%",
+                margin: "auto"
+              }}
             >
-            Salvar
-            {isLoading ?  <CircularProgress sx={{p: 2}} color="inherit" size={20} />: ""}
+              <CKEditor
+                editor={ClassicEditor}
+                data={descricao}
+                onChange={(event: any, editor: any) => {
+                  const data = editor.getData();
+                  setDescricao(data);
+                }}
+              />
+            </div>
+          </div>
 
-          </Button>
-        </Stack>
+          <Stack direction="row" spacing={3} justifyContent="flex-start">
+            <FormGroup>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={revisada}
+                    onChange={(event, checked: boolean) => {
+                      setRevisada(checked);
+                    }}
+                  />
+                }
+                label="Revisada (PS000356)"
+              />
+            </FormGroup>
+          </Stack>
+
+          <Stack direction="row" spacing={3} justifyContent="flex-end">
+            <Button variant="text" size="medium" onClick={closeModal}>
+              Voltar
+            </Button>
+
+            <Button
+              variant="contained"
+              size="medium"
+              onClick={() => {
+                atualizarAta();
+              }}
+              sx={{ maxWidth: 250, maxHeight: 40 }}
+            >
+              Salvar
+              {isLoading ? (
+                <CircularProgress sx={{ p: 2 }} color="inherit" size={20} />
+              ) : (
+                ""
+              )}
+            </Button>
+          </Stack>
         </Box>
       </Dialog>
     </Stack>
-
   );
 }

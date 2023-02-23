@@ -16,7 +16,9 @@ import {
   useTheme,
 } from "@mui/material";
 
-import EditorTexto from "./EditorTexto";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+
 import { AtaService } from "./Services/service";
 
 export default function AddModal(props: any) {
@@ -70,7 +72,7 @@ export default function AddModal(props: any) {
     }
   }
 
-
+  
   return (
     <div>
       <Button onClick={openModal} startIcon={<AddIcon />} variant="contained">
@@ -136,20 +138,22 @@ export default function AddModal(props: any) {
 
           <h4>Descrição</h4>
 
-          <EditorTexto />
+          <div
+              style={{
+                width: "100%",
+                margin: "auto"
+              }}
+            >
+              <CKEditor
+                editor={ClassicEditor}
+                data=""
+                onChange={(event: any, editor: any) => {
+                  const data = editor.getData();
+                  setDescricao(data);
+                }}
+              />
+            </div>
 
-          {/* <TextField
-            id="descricao"
-            label="Descrição"
-            variant="outlined"
-            required
-            multiline
-            rows={5}
-            fullWidth
-            onChange={(v) => {
-              setDescricao(v.target.value);
-            }}
-          /> */}
 
           <Stack
             direction="row"

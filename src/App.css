@@ -3,3 +3,8 @@
 *{
     font-family: 'Montserrat', sans-serif;
 }
+
+
+.ck-editor__editable {
+    height: 250px;
+}
