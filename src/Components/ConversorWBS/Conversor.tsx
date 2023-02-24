@@ -11,6 +11,7 @@ import {
 import ModalConversor from "./ModalConversor";
 import { ConversorService } from "./Service/service";
 
+
 export default function Conversor() {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [arquivoConvertido, setArquivoConvertido] = useState<any>("");
@@ -20,6 +21,8 @@ export default function Conversor() {
   const [isLoading, setIsLoading] = useState(false);
 
   const [copyFeedback, setCopyFeedback] = useState<boolean>(false);
+
+  
 
   const openAlert = () => {
     setCopyFeedback(true);

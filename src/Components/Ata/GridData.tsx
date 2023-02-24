@@ -3,12 +3,13 @@ import { AtaService } from "./Services/service";
 import { DataGrid, GridActionsCellItem, GridColumns } from "@mui/x-data-grid";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import Header from "./Header";
 import EditModal from "./EditModal";
 import DeleteModal from "./DeleteModal";
-import { Stack } from "@mui/material";
+import { Alert, Snackbar, Stack } from "@mui/material";
 
 export default function GridData(props: any) {
   const [page, setPage] = useState(0);
@@ -27,6 +28,33 @@ export default function GridData(props: any) {
 
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [deleteId, setDeleteId] = useState("");
+
+  const [idAta, setIdAta] = useState("");
+  const [tituloAta, setTituloAta] = useState("");
+
+  const [copyFeedback, setCopyFeedback] = useState<boolean>(false);
+
+  const openAlert = () => {
+    setCopyFeedback(true);
+  };
+
+  const closeAlert = () => {
+    setCopyFeedback(false);
+  };
+
+
+  const copy = (text: string) => {
+    if (!navigator.clipboard) {
+      return;
+    }
+
+    return navigator.clipboard
+      .writeText(text)
+      .catch((error) => {})
+      .finally(() => setCopyFeedback(true));
+  };
+
+
 
   useEffect(() => {
     getData("");
@@ -129,6 +157,22 @@ export default function GridData(props: any) {
           }}
           showInMenu
         />,
+
+        <GridActionsCellItem
+          icon={<ContentCopyIcon />}
+          label="Copiar"
+          onClick={() => {
+            let index = results.findIndex((x) => x.id == params.id);
+
+            let id = results[index].uniqueKey;
+            let titulo = results[index].titulo;
+
+            setIdAta(id);
+            setTituloAta(titulo);
+
+            copy(`ATA-${id}_${titulo}`)
+          }}
+        />,
       ],
     },
   ];
@@ -172,7 +216,16 @@ export default function GridData(props: any) {
         onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
         columns={columns}
       />
-      
+
+      <Snackbar
+        open={copyFeedback}
+        autoHideDuration={6000}
+        onClose={closeAlert}
+      >
+        <Alert onClose={closeAlert} severity="info" sx={{ width: "100%" }}>
+          Texto copiado!
+        </Alert>
+      </Snackbar>
     </Stack>
   );
 }
